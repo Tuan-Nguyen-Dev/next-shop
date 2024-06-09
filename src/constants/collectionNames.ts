@@ -1,3 +1,7 @@
 export const collectionNames = {
-    users: 'users'
+    users: 'users',
+    offers: 'offers',
+    files: 'files',
+
+
 }
