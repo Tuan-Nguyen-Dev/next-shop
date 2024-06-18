@@ -9,7 +9,7 @@ import path from 'path'
 
 export class HandleFile {
 
-    static HandleFiles = (files: any, id: string) => {
+    static HandleFiles = async (files: any, id: string, collectionName: string) => {
         const items: any[] = []
         for (const i in files) {
             if (files[i].size && files[i].size > 0) {
@@ -18,12 +18,12 @@ export class HandleFile {
         }
         items.forEach(async item => {
             const newFile = await handleResize(item)
-            await this.UploadToStore(newFile, id)
+            await this.UploadToStore(newFile, id, collectionName)
         })
     }
 
 
-    static UploadToStore = async (file: any, id: string) => {
+    static UploadToStore = async (file: any, id: string, collectionName: string) => {
         const filename = replaceName(file.name)
         const path = `/images/${filename}`
         const storageRef = ref(storage, path)
@@ -33,7 +33,7 @@ export class HandleFile {
         if (res) {
             if (res.metadata.size === file.size) {
                 const url = await getDownloadURL(storageRef)
-                await this.SaveToFireStore({ path, downloadUrl: url, id })
+                await this.SaveToFireStore({ path, downloadUrl: url, id, name: collectionName })
             } else {
                 return 'uploading'
             }
@@ -42,15 +42,15 @@ export class HandleFile {
         }
     }
 
-    static SaveToFireStore = async ({ path, downloadUrl, id }: { path: string, downloadUrl: string, id: string }) => {
+    static SaveToFireStore = async ({ path, downloadUrl, id, name }: { path: string, downloadUrl: string, id: string, name: string }) => {
         try {
-            const snap = await addDoc(collection(firebase, collectionNames.files), {
+            const snap = await addDoc(collection(firebase, 'files'), {
                 path,
                 downloadUrl,
             })
             const fileId = snap.id
             if (fileId) {
-                await updateDoc(doc(firebase, `offers/${id}`), {
+                await updateDoc(doc(firebase, `${name}/${id}`), {
                     files: arrayUnion(fileId)
                 })
             }

@@ -37,7 +37,7 @@ const AddNewOffer = () => {
       );
 
       if (files) {
-        HandleFile.HandleFiles(files, snap.id);
+        await HandleFile.HandleFiles(files, snap.id, "offers");
       }
       form.resetFields();
       window.history.back();
