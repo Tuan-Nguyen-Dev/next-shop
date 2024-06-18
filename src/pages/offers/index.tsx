@@ -1,11 +1,13 @@
-import { AvatarComponent } from "@/components";
+import { AvatarComponent, HeadComponent } from "@/components";
 import { collectionNames } from "@/constants/collectionNames";
 import { firebase } from "@/firebases/firebaseConfig";
 import { OfferModel } from "@/models/OfferModel";
 import { UserModel } from "@/models/UserModel";
+import { DateTime } from "@/utils/DateTime";
 import { HandleFile } from "@/utils/handleFile";
 import { Avatar, Button, Modal, Space, Table } from "antd";
 import { ColumnProps } from "antd/es/table";
+import { time } from "console";
 import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -35,13 +37,13 @@ const Offers = () => {
     });
   }, []);
 
-  const colums: ColumnProps<OfferModel>[] = [
+  const colums: ColumnProps<any>[] = [
     {
       key: "avatars",
       dataIndex: "files",
       title: "",
       render: (ids: string[]) =>
-        ids.length > 0 && <AvatarComponent id={ids[0]} path="files" />,
+        ids && ids.length > 0 && <AvatarComponent id={ids[0]} path="files" />,
     },
     {
       key: "Title",
@@ -54,19 +56,16 @@ const Offers = () => {
       title: "Percent (%)",
     },
     {
-      key: "start",
-      dataIndex: "start",
+      key: "startAt",
+      dataIndex: "startAt",
       title: "Start at",
+      render: (time: number) => DateTime.getDate(time),
     },
     {
-      key: "end",
-      dataIndex: "end",
+      key: "endAt",
+      dataIndex: "endAt",
       title: "End at",
-    },
-    {
-      key: "end",
-      dataIndex: "end",
-      title: "End at",
+      render: (time: number) => DateTime.getDate(time),
     },
     {
       key: "discount",
@@ -110,14 +109,18 @@ const Offers = () => {
 
   return (
     <>
-      <div className="text-right">
-        <Button
-          type="primary"
-          onClick={() => router.push("/offers/add-new-offer")}
-        >
-          Add New
-        </Button>
-      </div>
+      <HeadComponent
+        pageTitle="Offer"
+        title="Offers"
+        extra={
+          <Button
+            type="primary"
+            onClick={() => router.push("/offers/add-new-offer")}
+          >
+            Add New
+          </Button>
+        }
+      />
       <Table dataSource={offer} columns={colums} />
     </>
   );

@@ -3,9 +3,12 @@ import { collectionNames } from "@/constants/collectionNames";
 import { firebase } from "@/firebases/firebaseConfig";
 import { generatorRandomText } from "@/utils/generatorRandomText";
 import { HandleFile } from "@/utils/handleFile";
-import { Button, Card, Form, Input } from "antd";
+import { Button, Card, DatePicker, Form, Input } from "antd";
 import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import dayjs from "dayjs";
+
+const date = new Date();
 
 const AddNewOffer = () => {
   const [files, setFiles] = useState<any[]>([]);
@@ -24,6 +27,9 @@ const AddNewOffer = () => {
       data[`${i}`] = value[i] ?? " ";
     }
 
+    data.startAt = new Date(value.startAt.$d).getTime();
+    data.endAt = new Date(value.endAt.$d).getTime();
+    console.log(data);
     try {
       const snap = await addDoc(
         collection(firebase, collectionNames.offers),
@@ -64,6 +70,23 @@ const AddNewOffer = () => {
           <Form.Item name={"description"} label="Description">
             <Input.TextArea rows={2} placeholder="Description" allowClear />
           </Form.Item>
+
+          <div className="row">
+            <div className="col">
+              <Form.Item
+                name={"startAt"}
+                initialValue={dayjs(date)}
+                label="Start at"
+              >
+                <DatePicker style={{ width: "100%" }} format={"DD/MM/YYYY"} />
+              </Form.Item>
+            </div>
+            <div className="col">
+              <Form.Item name={"endAt"} label="End at">
+                <DatePicker style={{ width: "100%" }} format={"DD/MM/YYYY"} />
+              </Form.Item>
+            </div>
+          </div>
           <Form.Item name={"percent"} label="Percent">
             <Input type="number" placeholder="percent" allowClear />
           </Form.Item>
