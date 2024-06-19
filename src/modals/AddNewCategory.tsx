@@ -33,6 +33,8 @@ const AddNewCategory = (props: Props) => {
       try {
         const snap = await addDoc(collection(firebase, "categories"), {
           title,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
         });
         if (files) {
           await HandleFile.HandleFiles(files, snap.id, "categories");

@@ -40,6 +40,8 @@ const AddSubPrduct = () => {
         const snap = await addDoc(collection(firebase, "subProducts"), {
           ...data,
           productId: id,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
         });
         if (files) {
           await HandleFile.HandleFiles(files, snap.id, "subProducts");

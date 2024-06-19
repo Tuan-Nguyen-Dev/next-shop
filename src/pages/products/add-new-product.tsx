@@ -49,7 +49,11 @@ const AddNewProduct = () => {
     }
 
     try {
-      const snap = await addDoc(collection(firebase, "products"), data);
+      const snap = await addDoc(collection(firebase, "products"), {
+        ...data,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      });
       if (files) {
         await HandleFile.HandleFiles(files, snap.id, "products");
       }

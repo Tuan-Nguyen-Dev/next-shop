@@ -31,10 +31,11 @@ const AddNewOffer = () => {
     data.endAt = new Date(value.endAt.$d).getTime();
     console.log(data);
     try {
-      const snap = await addDoc(
-        collection(firebase, collectionNames.offers),
-        data
-      );
+      const snap = await addDoc(collection(firebase, collectionNames.offers), {
+        ...data,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      });
 
       if (files) {
         await HandleFile.HandleFiles(files, snap.id, "offers");

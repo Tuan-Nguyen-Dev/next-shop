@@ -52,7 +52,8 @@ export class HandleFile {
             if (fileId) {
                 await updateDoc(doc(firebase, `${name}/${id}`), {
                     files: arrayUnion(fileId),
-                    imageUrl: downloadUrl
+                    imageUrl: downloadUrl,
+                    updatedAt: Date.now(),
                 })
             }
         } catch (error) {
