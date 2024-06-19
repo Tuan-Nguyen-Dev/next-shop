@@ -1,4 +1,4 @@
-import { SiderComponent } from "@/components";
+import { HeaderCompoment, SiderComponent } from "@/components";
 import { Layout } from "antd";
 import type { AppProps } from "next/app";
 
@@ -7,7 +7,7 @@ const { Content, Sider, Header } = Layout;
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Layout>
-      <Header />
+      <HeaderCompoment />
       <Layout>
         <SiderComponent />
         <Content>

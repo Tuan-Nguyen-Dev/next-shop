@@ -6,6 +6,7 @@ export interface OfferModel {
     id: string
     percent: string
     startAt: number
-    title: string
+    title: string,
+    imageUrl: string
 }
 

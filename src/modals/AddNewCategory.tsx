@@ -59,6 +59,7 @@ const AddNewCategory = (props: Props) => {
           size="large"
           placeholder="Title"
           maxLength={150}
+          max={150}
           allowClear
           value={title}
           onChange={(val) => setTitle(val.target.value)}

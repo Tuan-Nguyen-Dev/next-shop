@@ -8,7 +8,14 @@ import { HandleFile } from "@/utils/handleFile";
 import { Avatar, Button, Modal, Space, Table } from "antd";
 import { ColumnProps } from "antd/es/table";
 import { time } from "console";
-import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  onSnapshot,
+  updateDoc,
+} from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { BiTrash } from "react-icons/bi";
@@ -40,10 +47,15 @@ const Offers = () => {
   const colums: ColumnProps<any>[] = [
     {
       key: "avatars",
-      dataIndex: "files",
+      dataIndex: "",
       title: "",
-      render: (ids: string[]) =>
-        ids && ids.length > 0 && <AvatarComponent id={ids[0]} path="files" />,
+      render: (item: OfferModel) => (
+        <AvatarComponent
+          imageUrl={item.imageUrl}
+          id={item.files && item.files.length > 0 ? item.files[0] : undefined}
+          path="files"
+        />
+      ),
     },
     {
       key: "Title",
@@ -121,6 +133,7 @@ const Offers = () => {
           </Button>
         }
       />
+
       <Table dataSource={offer} columns={colums} />
     </>
   );

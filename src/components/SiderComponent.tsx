@@ -1,6 +1,7 @@
 import { Layout, Menu, MenuProps } from "antd";
 import Link from "next/link";
 import React from "react";
+import { AiFillProduct } from "react-icons/ai";
 import { BiCategoryAlt, BiHome, BiUser } from "react-icons/bi";
 import { IoMdPricetag } from "react-icons/io";
 import { MdLocalOffer } from "react-icons/md";
@@ -28,6 +29,11 @@ const SiderComponent = () => {
       key: "categories",
       label: <Link href={"/categories"}>Categories</Link>,
       icon: <BiCategoryAlt />,
+    },
+    {
+      key: "products",
+      label: <Link href={"/products"}>Products</Link>,
+      icon: <AiFillProduct />,
     },
   ];
   return (

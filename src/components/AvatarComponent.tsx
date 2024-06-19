@@ -5,10 +5,11 @@ import React, { useEffect, useState } from "react";
 
 type Props = {
   path: string;
-  id: string;
+  id?: string;
+  imageUrl?: string;
 };
 const AvatarComponent = (props: Props) => {
-  const { path, id } = props;
+  const { path, id, imageUrl } = props;
 
   const [fileInfo, setfileInfo] = useState<{
     downloadUrl: string;
@@ -16,8 +17,10 @@ const AvatarComponent = (props: Props) => {
   }>();
 
   useEffect(() => {
+    !imageUrl && id && getFileInfo();
+
     getFileInfo();
-  }, [path, id]);
+  }, [path, id, imageUrl]);
 
   const getFileInfo = async () => {
     const api = `${path}/${id}`;
@@ -36,7 +39,9 @@ const AvatarComponent = (props: Props) => {
       console.log(error);
     }
   };
-  return fileInfo ? <Avatar src={fileInfo.downloadUrl} /> : <></>;
+  return (
+    <Avatar src={imageUrl ? imageUrl : fileInfo ? fileInfo.downloadUrl : ""} />
+  );
 };
 
 export default AvatarComponent;

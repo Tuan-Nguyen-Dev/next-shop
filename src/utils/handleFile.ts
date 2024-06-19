@@ -51,7 +51,8 @@ export class HandleFile {
             const fileId = snap.id
             if (fileId) {
                 await updateDoc(doc(firebase, `${name}/${id}`), {
-                    files: arrayUnion(fileId)
+                    files: arrayUnion(fileId),
+                    imageUrl: downloadUrl
                 })
             }
         } catch (error) {
